@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Main Hall - Silent Hill f Mobile Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Header - Compact & Sticky */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(220, 20, 60, 0.3);
+            padding: 15px;
+            padding-top: max(15px, env(safe-area-inset-top));
+        }
+        
+        .title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffd700, #dc143c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Quick Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(155, 89, 182, 0.1);
+            border-bottom: 1px solid rgba(155, 89, 182, 0.3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .stat {
+            flex-shrink: 0;
+            text-align: center;
+            padding: 10px 15px;
+            background: rgba(20, 5, 5, 0.8);
+            border-radius: 10px;
+            min-width: 80px;
+        }
+        
+        .stat-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #9b59b6;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.65rem;
+            color: #999;
+            text-transform: uppercase;
+        }
+        
+        /* Quick Jump Buttons */
+        .quick-nav {
+            display: flex;
+            gap: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .quick-btn {
+            flex-shrink: 0;
+            padding: 10px 15px;
+            background: rgba(155, 89, 182, 0.2);
+            border: 1px solid rgba(155, 89, 182, 0.5);
+            border-radius: 20px;
+            color: #9b59b6;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        
+        .quick-btn:active {
+            background: rgba(155, 89, 182, 0.4);
+        }
+        
+        /* Content */
+        .content {
+            padding: 20px 15px;
+        }
+        
+        /* Section Headers */
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #9b59b6;
+            margin: 35px 0 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(155, 89, 182, 0.3);
+        }
+        
+        /* Collectible Cards - Mobile Optimized */
+        .card {
+            background: rgba(20, 5, 5, 0.8);
+            border: 1px solid rgba(155, 89, 182, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            flex: 1;
+            line-height: 1.4;
+        }
+        
+        .card-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(155, 89, 182, 0.2);
+            border: 1px solid rgba(155, 89, 182, 0.5);
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #9b59b6;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .faith-badge {
+            padding: 8px 16px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #ffd700;
+            border-radius: 20px;
+            color: #ffd700;
+            font-size: 1rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .card-desc {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        /* Image Gallery - Touch Optimized */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .img-wrap {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+        
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            font-size: 0.7rem;
+            color: #fff;
+        }
+        
+        /* Single column for 3+ images */
+        .gallery-single {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Special Sections */
+        .ritual-section {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(155, 89, 182, 0.05));
+            border: 2px solid rgba(255, 107, 53, 0.5);
+            border-radius: 15px;
+            padding: 20px 15px;
+            margin: 25px 0;
+        }
+        
+        .ritual-title {
+            font-size: 1.2rem;
+            color: #ff6b35;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        
+        .ritual-desc {
+            font-size: 0.9rem;
+            color: #bbb;
+            line-height: 1.6;
+        }
+        
+        .boss-section {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.15), rgba(139, 0, 0, 0.1));
+            border: 2px solid rgba(220, 20, 60, 0.5);
+            border-radius: 15px;
+            padding: 20px 15px;
+            margin: 25px 0;
+        }
+        
+        .boss-title {
+            font-size: 1.3rem;
+            color: #dc143c;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        
+        .tactic-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid #dc143c;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .tactic-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #dc143c;
+            margin-bottom: 8px;
+        }
+        
+        .tactic-desc {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* Warning Boxes */
+        .warning {
+            background: rgba(220, 20, 60, 0.15);
+            border: 1px solid rgba(220, 20, 60, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #dc143c;
+            margin-bottom: 8px;
+        }
+        
+        /* Image Modal - Mobile Friendly */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            padding: 20px;
+            padding-top: max(20px, env(safe-area-inset-top));
+        }
+        
+        .modal.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .modal-close {
+            position: fixed;
+            top: max(20px, env(safe-area-inset-top));
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(220, 20, 60, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .modal-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(155, 89, 182, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+        .modal-prev { left: 15px; }
+        .modal-next { right: 15px; }
+        
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(155, 89, 182, 0.3);
+            padding: 10px 15px;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            display: flex;
+            gap: 10px;
+            z-index: 99;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(155, 89, 182, 0.2);
+            border: 1px solid rgba(155, 89, 182, 0.5);
+            border-radius: 10px;
+            color: #9b59b6;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .nav-btn:active {
+            background: rgba(155, 89, 182, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="header">
+        <div class="title">本堂 Main Hall</div>
+        <div class="subtitle">Area 9 • Ceremonial Hall</div>
+    </div>
+    
+    <!-- Quick Stats -->
+    <div class="stats-bar">
+        <div class="stat">
+            <span class="stat-num">14</span>
+            <span class="stat-label">Items</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">3</span>
+            <span class="stat-label">Rituals</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">1</span>
+            <span class="stat-label">Trophy</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">2200</span>
+            <span class="stat-label">Faith</span>
+        </div>
+    </div>
+    
+    <!-- Quick Navigation -->
+    <div class="quick-nav">
+        <a href="#ritual1" class="quick-btn">🕯️ Ritual 1</a>
+        <a href="#ritual2" class="quick-btn">🔥 Ritual 2</a>
+        <a href="#ritual3" class="quick-btn">⚡ Ritual 3</a>
+        <a href="#foxrooms" class="quick-btn">🦊 Fox Rooms</a>
+        <a href="#boss" class="quick-btn">👿 Boss</a>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content">
+        
+        <!-- BEFORE RITUAL 1 -->
+        <h2 id="ritual1" class="section-header">🕯️ Before Ritual 1</h2>
+        
+        <div class="card">
+            <div class="card-tag">Document</div>
+            <div class="card-header">
+                <div class="card-icon">📄</div>
+                <div class="card-title">Family Physician's Log (3)</div>
+            </div>
+            <div class="card-desc">
+                After opening the first door, turn left to find this on a bench.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-1-1.jpg" alt="Door">
+                    <div class="img-caption">After first door</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-1-2.jpg" alt="Bench">
+                    <div class="img-caption">On bench to left</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-tag">Offering</div>
+            <div class="card-header">
+                <div class="card-icon">🎁</div>
+                <div class="card-title">Antique Comb</div>
+            </div>
+            <div class="faith-badge">✨ 300 Faith</div>
+            <div class="card-desc">
+                Northwest of Hokora Shrine, on boxes in corner.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-2-1.jpg" alt="Location">
+                    <div class="img-caption">Northwest area</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-2-2.jpg" alt="Boxes">
+                    <div class="img-caption">On boxes</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-tag">Offering</div>
+            <div class="card-header">
+                <div class="card-icon">🎁</div>
+                <div class="card-title">Dried Carcass</div>
+            </div>
+            <div class="faith-badge">✨ 200 Faith</div>
+            <div class="card-desc">
+                Upstairs, second room, on draws.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-3-1.jpg" alt="Upstairs">
+                    <div class="img-caption">Upstairs area</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-3-2.jpg" alt="Draws">
+                    <div class="img-caption">On draws</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AFTER RITUAL 1 -->
+        <h2 id="ritual2" class="section-header">🔥 After Ritual 1</h2>
+        
+        <div class="card">
+            <div class="card-tag">Offering</div>
+            <div class="card-header">
+                <div class="card-icon">🎁</div>
+                <div class="card-title">Shriveled Abura-age</div>
+            </div>
+            <div class="faith-badge">✨ 500 Faith</div>
+            <div class="card-desc">
+                On the altar after first ritual.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-4-1.jpg" alt="Altar">
+                    <div class="img-caption">Ritual altar</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-4-2.jpg" alt="Item">
+                    <div class="img-caption">Offering</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AFTER RITUAL 2 -->
+        <h2 id="ritual3" class="section-header">⚡ After Ritual 2</h2>
+        
+        <div class="card">
+            <div class="card-tag">Omamori + Document</div>
+            <div class="card-header">
+                <div class="card-icon">🦅</div>
+                <div class="card-title">Crow + Housemaid's Note (2)</div>
+            </div>
+            <div class="card-desc">
+                First floor, south room, open metal door.
+            </div>
+            <div class="gallery gallery-single">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-5-1.jpg" alt="Door">
+                    <div class="img-caption">Metal door</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-5-2.jpg" alt="Inside">
+                    <div class="img-caption">Inside room</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(2, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-main-hall-collectibles-5-3.jpg" alt="Items">
+                    <div class="img-caption">Both items</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- More collectibles would continue here... -->
+        
+        <!-- FOX ROOMS -->
+        <div id="foxrooms" class="ritual-section">
+            <div class="ritual-title">🦊 Hidden Fox Rooms</div>
+            <div class="ritual-desc">
+                After ritual 3, hold <strong>L2</strong> near walls with fox artwork and blood to reveal hidden rooms!
+            </div>
+        </div>
+        
+        <!-- BOSS FIGHT -->
+        <div id="boss" class="boss-section">
+            <div class="boss-title">🏆 Echoes of Jealousy</div>
+            
+            <div class="warning">
+                <div class="warning-title">⚠️ Trophy Requirements</div>
+                Complete fight without taking damage from puppet explosions!
+            </div>
+            
+            <div class="tactic-card">
+                <div class="tactic-title">⚔️ Kill Fast</div>
+                <div class="tactic-desc">Attack puppets immediately - they die in 1-2 swipes</div>
+            </div>
+            
+            <div class="tactic-card">
+                <div class="tactic-title">🔥 Avoid Fire</div>
+                <div class="tactic-desc">Stay away from puppets during boss fire attacks</div>
+            </div>
+            
+            <div class="tactic-card">
+                <div class="tactic-title">💀 Quick Restart</div>
+                <div class="tactic-desc">Got hit? Let boss kill you - respawn at fight start!</div>
+            </div>
+        </div>
+        
+        <div style="height: 80px;"></div>
+    </div>
+    
+    <!-- Image Modal -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-close" onclick="closeModal()">✕</div>
+        <div class="modal-prev" onclick="prevImage(event)">‹</div>
+        <div class="modal-next" onclick="nextImage(event)">›</div>
+        <img id="modalImg" class="modal-img" src="" alt="">
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="mobile-index.html" class="nav-btn">🏠 Home</a>
+        <a href="#" onclick="scrollToTop(); return false;" class="nav-btn">⬆️ Top</a>
+    </div>
+    
+    <script>
+        let currentGallery = null;
+        let currentIndex = 0;
+        let images = [];
+        
+        function openModal(index, element) {
+            const gallery = element.closest('.gallery');
+            currentGallery = gallery;
+            images = Array.from(gallery.querySelectorAll('.img-wrap img'));
+            currentIndex = index;
+            
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            
+            modal.classList.add('active');
+            modalImg.src = images[currentIndex].src;
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function nextImage(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('modalImg').src = images[currentIndex].src;
+        }
+        
+        function prevImage(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('modalImg').src = images[currentIndex].src;
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Smooth scroll for quick nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
