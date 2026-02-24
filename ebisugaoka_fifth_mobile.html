@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>恵比寿ヶ丘 Fifth Visit - Silent Hill f</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Sticky Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 71, 137, 0.4);
+            padding: 15px;
+            padding-top: max(15px, env(safe-area-inset-top));
+        }
+        
+        .title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffd700, #8b4789);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Quick Stats */
+        .stats-bar {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(139, 71, 137, 0.1);
+            border-bottom: 1px solid rgba(139, 71, 137, 0.3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .stat {
+            flex-shrink: 0;
+            text-align: center;
+            padding: 10px 15px;
+            background: rgba(20, 5, 5, 0.8);
+            border-radius: 10px;
+            min-width: 80px;
+        }
+        
+        .stat-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #8b4789;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.65rem;
+            color: #999;
+            text-transform: uppercase;
+        }
+        
+        /* Content */
+        .content {
+            padding: 20px 15px;
+        }
+        
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(139, 71, 137, 0.2), rgba(139, 0, 0, 0.1));
+            border: 2px solid #8b4789;
+            border-radius: 15px;
+            padding: 20px 15px;
+            margin-bottom: 25px;
+        }
+        
+        .warning-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .warning-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #8b4789;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .warning-text {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.7;
+            text-align: center;
+        }
+        
+        /* Collectible Cards */
+        .card {
+            background: rgba(20, 5, 5, 0.8);
+            border: 1px solid rgba(139, 71, 137, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            flex: 1;
+            line-height: 1.4;
+        }
+        
+        .card-tag {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(139, 71, 137, 0.2);
+            border: 1px solid rgba(139, 71, 137, 0.5);
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #8b4789;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .faith-badge {
+            padding: 8px 16px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #ffd700;
+            border-radius: 20px;
+            color: #ffd700;
+            font-size: 1rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .card-desc {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        /* Image Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .img-wrap {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+        
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            font-size: 0.7rem;
+            color: #fff;
+        }
+        
+        /* 3 images = single column */
+        .gallery-single {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Image Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            padding: 20px;
+            padding-top: max(20px, env(safe-area-inset-top));
+        }
+        
+        .modal.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .modal-close {
+            position: fixed;
+            top: max(20px, env(safe-area-inset-top));
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(139, 71, 137, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .modal-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(139, 71, 137, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+        .modal-prev { left: 15px; }
+        .modal-next { right: 15px; }
+        
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(139, 71, 137, 0.3);
+            padding: 10px 15px;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            display: flex;
+            gap: 10px;
+            z-index: 99;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(139, 71, 137, 0.2);
+            border: 1px solid rgba(139, 71, 137, 0.5);
+            border-radius: 10px;
+            color: #8b4789;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .nav-btn:active {
+            background: rgba(139, 71, 137, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="title">恵比寿ヶ丘 Fifth Visit</div>
+        <div class="subtitle">Area 10 • Mountain Descent</div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats-bar">
+        <div class="stat">
+            <span class="stat-num">7</span>
+            <span class="stat-label">Items</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">5</span>
+            <span class="stat-label">Docs</span>
+        </div>
+        <div class="stat">
+            <span class="stat-num">200</span>
+            <span class="stat-label">Faith</span>
+        </div>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+        
+        <!-- Warning -->
+        <div class="warning-box">
+            <div class="warning-icon">🩸</div>
+            <div class="warning-title">New Enemy: Flesh Clumps</div>
+            <div class="warning-text">
+                Watch for flesh clump spawners that generate enemies along the mountain pass!
+            </div>
+        </div>
+        
+        <!-- Collectible 1 -->
+        <div class="card">
+            <div class="card-tag">Document</div>
+            <div class="card-header">
+                <div class="card-icon">📄</div>
+                <div class="card-title">Clinical Trial (1)</div>
+            </div>
+            <div class="card-desc">
+                Down mountain pass, past flesh clump spawner. Right side next to house, on blue crate.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-1-1.jpg" alt="Pass">
+                    <div class="img-caption">Mountain pass</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-1-2.jpg" alt="Crate">
+                    <div class="img-caption">Blue crate</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collectible 2 -->
+        <div class="card">
+            <div class="card-tag">Omamori</div>
+            <div class="card-header">
+                <div class="card-icon">🌸</div>
+                <div class="card-title">Suzuran</div>
+            </div>
+            <div class="card-desc">
+                House on left, enemy rushes from right side. Kill it, go where it came from, inside crate.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-2-1.jpg" alt="House">
+                    <div class="img-caption">House on left</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-2-2.jpg" alt="Crate">
+                    <div class="img-caption">Inside crate</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collectible 3 -->
+        <div class="card">
+            <div class="card-tag">Document</div>
+            <div class="card-header">
+                <div class="card-icon">📄</div>
+                <div class="card-title">Strict Mother's Letter (1)</div>
+            </div>
+            <div class="card-desc">
+                Split path - take left to Inari shrine. Document in front of it.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-3-1.jpg" alt="Path">
+                    <div class="img-caption">Split - go left</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-3-2.jpg" alt="Shrine">
+                    <div class="img-caption">Inari shrine</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collectible 4 -->
+        <div class="card">
+            <div class="card-tag">Offering</div>
+            <div class="card-header">
+                <div class="card-icon">🎁</div>
+                <div class="card-title">Dried Carcass</div>
+            </div>
+            <div class="faith-badge">✨ 200 Faith</div>
+            <div class="card-desc">
+                Through park in town, south to house rear. Inside crate.
+            </div>
+            <div class="gallery gallery-single">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-4-1.jpg" alt="Park">
+                    <div class="img-caption">Park in town</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-4-2.jpg" alt="House">
+                    <div class="img-caption">South to house</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(2, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-4-3.jpg" alt="Crate">
+                    <div class="img-caption">Inside crate</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collectible 5 -->
+        <div class="card">
+            <div class="card-tag">Document</div>
+            <div class="card-header">
+                <div class="card-icon">📄</div>
+                <div class="card-title">Strict Mother's Letter (2)</div>
+            </div>
+            <div class="card-desc">
+                North from park. On porch of house.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-5-1.jpg" alt="North">
+                    <div class="img-caption">North from park</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-5-2.jpg" alt="Porch">
+                    <div class="img-caption">House porch</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collectible 6 -->
+        <div class="card">
+            <div class="card-tag">Document</div>
+            <div class="card-header">
+                <div class="card-icon">📄</div>
+                <div class="card-title">Strict Mother's Letter (3)</div>
+            </div>
+            <div class="card-desc">
+                Around corner from house. On fence line next to Hokora Shrine.
+            </div>
+            <div class="gallery">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-6-1.jpg" alt="Corner">
+                    <div class="img-caption">Around corner</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-6-2.jpg" alt="Fence">
+                    <div class="img-caption">Fence by shrine</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collectible 7 -->
+        <div class="card">
+            <div class="card-tag">Character Upgrade</div>
+            <div class="card-header">
+                <div class="card-icon">⬆️</div>
+                <div class="card-title">Ema Token</div>
+            </div>
+            <div class="card-desc">
+                <strong>Back at the start!</strong> See starting Hokora Shrine, go DOWN instead of up. Left at truck. Bench at end.
+            </div>
+            <div class="gallery gallery-single">
+                <div class="img-wrap" onclick="openModal(0, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-7-1.jpg" alt="Start">
+                    <div class="img-caption">Starting shrine</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(1, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-7-2.jpg" alt="Truck">
+                    <div class="img-caption">Left at truck</div>
+                </div>
+                <div class="img-wrap" onclick="openModal(2, this)">
+                    <img src="https://www.powerpyx.com/wp-content/uploads/silent-hill-f-ebisugaoka-5-collectibles-7-3.jpg" alt="Bench">
+                    <div class="img-caption">Bench at end</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="height: 80px;"></div>
+    </div>
+    
+    <!-- Image Modal -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-close" onclick="closeModal()">✕</div>
+        <div class="modal-prev" onclick="prevImage(event)">‹</div>
+        <div class="modal-next" onclick="nextImage(event)">›</div>
+        <img id="modalImg" class="modal-img" src="" alt="">
+    </div>
+    
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+        <a href="mobile-index.html" class="nav-btn">🏠 Home</a>
+        <a href="#" onclick="scrollToTop(); return false;" class="nav-btn">⬆️ Top</a>
+    </div>
+    
+    <script>
+        let currentGallery = null;
+        let currentIndex = 0;
+        let images = [];
+        
+        function openModal(index, element) {
+            const gallery = element.closest('.gallery');
+            currentGallery = gallery;
+            images = Array.from(gallery.querySelectorAll('.img-wrap img'));
+            currentIndex = index;
+            
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modalImg');
+            
+            modal.classList.add('active');
+            modalImg.src = images[currentIndex].src;
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function nextImage(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('modalImg').src = images[currentIndex].src;
+        }
+        
+        function prevImage(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('modalImg').src = images[currentIndex].src;
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+        
+        // Prevent zoom on double tap for images
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
